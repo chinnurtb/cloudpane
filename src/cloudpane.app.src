@@ -1,8 +1,8 @@
 %%-*- mode: erlang -*-
 {application, cloudpane,
  [
-  {description, "Cloudpane - For a variety of business development"},
-  {vsn, "0.0.1"},
+  {description, "Another Cloud PaaS"},
+  {vsn, "2.0.1"},
   {modules, []},
   {registered, []},
   {applications, [
