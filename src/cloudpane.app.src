@@ -1,0 +1,18 @@
+%%-*- mode: erlang -*-
+{application, cloudpane,
+ [
+  {description, "Cloudpane - For a variety of business development"},
+  {vsn, "0.0.1"},
+  {modules, []},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  inets,
+                  crypto,
+                  mochiweb,
+                  webmachine
+                 ]},
+  {mod, { cloudpane_app, []}},
+  {env, []}
+ ]}.

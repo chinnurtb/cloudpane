@@ -1,0 +1,59 @@
+
+Cloudpane Opensource Version v2.0.1
+
+===============================================================
+  This software can not be sold.
+  This software can not be used with commercial purposes.
+===============================================================
+More legal info, please contact us: http://www.ctyle.com/leagl
+
+Modules:
+==============================
+Apps:
+login app
+desktop app
+cloudpane platform admin app
+
+Services:
+Cloudpane App Engine (CAE)
+Data Information Tree (DIT)
+Cloudpane MQ with RabbitMQ (CMQ)
+
+DB:
+Cloudpane DB (CDB)
+pgsql
+
+
+How to compile this project?
+==============================
+(1)cd cloudpane
+(2)rebar get-deps
+(3)rebar compile
+
+How to init cloudpane?
+==============================
+(1)
+(2)DB: username and password for local access only
+db=cloudpane,username=cloudpane,password=cloudpane
+
+(2)erl envirnomnet run: cdb:init().
+ 
+How to start cloudpane?
+==============================
+(1)unix/mac osx/linux: ./start.sh or ./start-dev.sh
+(2) windows: run.bat or run-dev.bat
+
+
+How to stop cloudpane?
+==============================
+Ctrl + C (both win and mac )
+
+Copyrights and Contributors
+==============================
+Copyrights © 2013 Ctyle Corporation All Rights Reserved.
+
+Contributors: 
+zhang weizhong (@zhangweizhong)
+
+The codes in the "deps" directory, which are copyrighted 
+by its developers.
