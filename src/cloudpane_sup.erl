@@ -70,6 +70,6 @@ priv_dir(Mod) ->
       Ebin = filename:dirname(code:which(Mod)),
       filename:join(filename:dirname(Ebin), "priv");
     PrivDir ->
-      ?cinfo(priv_dir,PrivDir),
+      ?cinfo(PrivDir),
       PrivDir
   end.

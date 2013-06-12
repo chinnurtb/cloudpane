@@ -1,7 +1,7 @@
 %% @doc cloudpane static resources.
 
 -module(static_resources).
-
+-d(true).
 -export([init/1,
          allowed_methods/2,
          resource_exists/2,
@@ -32,16 +32,15 @@ init([]) ->
     %%{ok, App}= application:get_application(), 
     %?info2(init,{privDir,PrivDir}),
     PrivDir = code:priv_dir(cloudpane),
-    ?cinfo(init,{check_windows_priv_dir,PrivDir}),
     {{trace, "/tmp"}, #context{docroot=PrivDir}}.
     %{ok, #context{docroot=PrivDir}}.
 
 allowed_methods(ReqData, Context) ->
-    ?cinfo(allowed_methods,ok),
+    ?cinfo(ok),
     {['HEAD', 'GET'], ReqData, Context}.
 
 resource_exists(ReqData, Ctx) ->
-    ?cinfo(resource_exists,ok),
+    ?cinfo(ok),
     {true, ReqData, Ctx}.
 
 content_types_provided(ReqData, Ctx) ->
@@ -88,18 +87,16 @@ file_exists(Context, Path) ->
 
 get_full_path(Context, Path) ->
     Root = Context#context.docroot,
-    ?cinfo(get_full_path,{root,Root}),
-    ?cinfo(get_full_path,{safe_relative_path,mochiweb_util:safe_relative_path(Path)}),
+    %?cinfo({root,Root}),
+    %?cinfo({safe_relative_path,mochiweb_util:safe_relative_path(Path)}),
     case mochiweb_util:safe_relative_path(Path) of
         undefined -> undefined;
         RelPath ->
             FullPath = filename:join([Root, RelPath]),
             case filelib:is_dir(FullPath) of
                 true ->
-                    ?cinfo(get_full_path,{true,root,Root,fullpath,FullPath}),
                     filename:join([FullPath, "index.html"]);
                 false ->
-                    ?cinfo(get_full_path,{false,FullPath}),
                     FullPath
             end
     end.

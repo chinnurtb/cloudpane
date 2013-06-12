@@ -3,32 +3,35 @@
 %%-include_lib("stdlib/include/qlc.hrl").
 -include("ej.hrl").
 
--define(cinfo(FunName,Msg),
-	error_logger:info_report([
-		{module,?MODULE},
-		{function,FunName},
-		Msg,
-		{file,?FILE},
-		{line,?LINE}
-	])).
+-define(cinfo(Msg),
+			{current_function, {_M, F, A}} = process_info(self(), current_function),
+			error_logger:info_report([
+				{mfa,?MODULE,F,A},
+				Msg,
+				{file,?FILE},
+				{line,?LINE}
+			])
+		).
 
--define(cwarn(FunName,Msg),
-	error_logger:warning_report([
-		{module,?MODULE},
-		{function,FunName},
-		Msg,
-		{file,?FILE},
-		{line,?LINE}
-	])).
+-define(cwarn(Msg),
+			{current_function, {_M, F, A}} = process_info(self(), current_function),
+			error_logger:warning_report([
+				{mfa,?MODULE,F,A},
+				Msg,
+				{file,?FILE},
+				{line,?LINE}
+			])
+		).
 
--define(cerror(FunName,Msg),
-	error_logger:error_report([
-		{module,?MODULE},
-		{function,FunName},
-		Msg,
-		{file,?FILE},
-		{line,?LINE}
-	])).
+-define(cerror(Msg),
+			{current_function, {_M, F, A}} = process_info(self(), current_function),
+			error_logger:error_report([
+				{mfa,?MODULE,F,A},
+				Msg,
+				{file,?FILE},
+				{line,?LINE}
+			])
+		).
 
 
 
