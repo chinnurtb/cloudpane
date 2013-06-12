@@ -7,21 +7,9 @@ Cloudpane Opensource Version v2.0.1
 ===============================================================
 More legal info, please contact us: http://www.ctyle.com/leagl
 
-Modules:
+特别注意：
 ==============================
-Apps:
-login app
-desktop app
-cloudpane platform admin app
-
-Services:
-Cloudpane App Engine (CAE)
-Data Information Tree (DIT)
-Cloudpane MQ with RabbitMQ (CMQ)
-
-DB:
-Cloudpane DB (CDB)
-pgsql
+开源版本没有App Engine，并且仅携带一个简单的数据库适配器。
 
 
 How to compile this project?
