@@ -22,20 +22,15 @@ from_json(RD,Ctx) ->
 	{true,RD,Ctx}.
 
 to_json(RD,Ctx) ->
-	{true,RD,Ctx}.
-
-to_text(ReqData, Context) ->
-    Path = wrq:disp_path(ReqData),
-    Body = io_lib:format("Hello ~s from server.~n", [Path]),
-    {Body, ReqData, Context}.
+	{true,RD,Ctx}. 
 
 process_post(RD,Ctx) ->
 	StructBody = 
 	{
 		struct,
 		[
-			{<<"id">>,"0"},
-			{<<"method">>,"test_method"},
+			{<<"id">>,111},
+			{<<"method">>,<<"test_method">>},
 			{<<"result">>,""},
 			{<<"error">>,null}
 		]

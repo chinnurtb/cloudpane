@@ -1,7 +1,6 @@
 %% @doc cloudpane static resources.
 
 -module(static_resources).
--d(true).
 -export([init/1,
          allowed_methods/2,
          resource_exists/2,
@@ -9,6 +8,8 @@
          provide_content/2]).
 %-export([generate_etag/2]).
 -export_all(compile).
+
+-debug(false).
 
 -include("cloudpane.hrl").
 -include_lib("kernel/include/file.hrl").
@@ -23,6 +24,7 @@
      id=0,
      authorized = false,
      method = undefined,
+     rest = false,
      params = undefined,
      result = undefined,
      error = null
@@ -93,6 +95,7 @@ get_full_path(Context, Path) ->
         undefined -> undefined;
         RelPath ->
             FullPath = filename:join([Root, RelPath]),
+            ?cinfo({fullpath,FullPath}),
             case filelib:is_dir(FullPath) of
                 true ->
                     filename:join([FullPath, "index.html"]);

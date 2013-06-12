@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 <title>Welcome to Cloudpane Server</title>
+<script type="text/javascript" src="system/core/contents/resources/js/jquery.min.js"></script>
 <style type="text/css">
 
 ::selection{ background-color: #E13300; color: white; }
@@ -60,6 +61,35 @@ p {
 		<p>When you read this page, that's mean a lot.</p>
 		<p>Now, it's time for you to replace this page ( ... priv/index.html) to your own html pages.</p>
 	</div>
+<script type="text/javascript">
+var get = function(Url) {
+	$.ajax({
+		url:Url,
+		type:'get',
+		async:true,
+		cache:true,
+		success:function(Data){
+			console.log(Data.result);
+		},
+		error:function(jqXHR,textStatus,errorThrown) {
 
+		}
+	});
+};
+var post = function(Url) {
+	$.ajax({
+		url:Url,
+		type:'post',
+		async:true,
+		cache:true,
+		success:function(Data){
+			console.log(Data.result);
+		},
+		error:function(jqXHR,textStatus,errorThrown) {
+
+		}
+	});
+};
+</script>
 </body>
 </html>
