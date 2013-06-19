@@ -38,3 +38,8 @@ How to stop cloudpane?
 ==================
 Ctrl + C (both win and mac )
 
+
+Update Code
+==================
+git commit -m "" -a
+git push -u origin master
