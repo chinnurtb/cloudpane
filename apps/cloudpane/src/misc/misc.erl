@@ -1,0 +1,2 @@
+-module(misc).
+-compile(export_all).
