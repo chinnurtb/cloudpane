@@ -6,18 +6,34 @@
 -module(cloudpane_sup).
 -author('@zhangweizhong').
 -behaviour(supervisor).
-
+-include("cloudpane.hrl").
 %% External exports
 -export([start_link/0, upgrade/0]).
 
 %% supervisor callbacks
 -export([init/1]).
 -compile(export_all).
--include("cloudpane.hrl").
+%-debug(true).
+
 %% @spec start_link() -> ServerRet
 %% @doc API for starting the supervisor.
 start_link() ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, []).
+
+  cloudpane:print_copyrights(),
+  cloudpane:ensure_started(inets),
+  cloudpane:ensure_started(crypto),
+
+  
+  %ensure_started(cdb),
+
+  cloudpane:ensure_started(mochiweb),
+
+  application:set_env(webmachine,server_name, "Cloudpane"),
+  application:set_env(webmachine, webmachine_logger_module, 
+                      webmachine_logger),
+  cloudpane:ensure_started(webmachine),
+  cdb:start(),
+  supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 %% @spec upgrade() -> ok
 %% @doc Add processes if necessary.
@@ -43,6 +59,8 @@ upgrade() ->
 init([]) ->
     Ip = case os:getenv("WEBMACHINE_IP") of false -> "127.0.0.1"; Any -> Any end,
     {ok, App} = application:get_application(?MODULE),
+    %?cinfo(App), 
+    %%sometime App = undefined, -_-!
     {ok, Dispatch} = file:consult(filename:join([priv_dir(App), "dispatch.conf"])),
     Port = case os:getenv("WEBMACHINE_PORT") of
             false -> 8000;
@@ -65,11 +83,13 @@ init([]) ->
 %% @doc return the priv dir
 %% @fixme something wrong here in windows
 priv_dir(Mod) ->
+  %?cinfo(Mod),
   case code:priv_dir(Mod) of
+
     {error, bad_name} ->
       Ebin = filename:dirname(code:which(Mod)),
       filename:join(filename:dirname(Ebin), "priv");
     PrivDir ->
-      ?cinfo(PrivDir),
+      %?cinfo(PrivDir),
       PrivDir
   end.

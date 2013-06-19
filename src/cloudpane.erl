@@ -43,35 +43,38 @@ ensure_started(App) ->
 %% @doc Starts the app for inclusion in a supervisor tree
 start_link() ->
 
-    print_copyrights(),
-    ensure_started(inets),
-    ensure_started(crypto),
-    
-    %cp_mnesia:start(),
-    %application:set_env(mnesia,dir,"db/development"),
+    % print_copyrights(),
+    % ensure_started(inets),
+    % ensure_started(crypto),
 
-    ensure_started(mochiweb),
+    % %ensure_started(cdb),
+    % cdb:start(),
+    % %application:set_env(mnesia,dir,"db/development"),
+
+    % ensure_started(mochiweb),
    
-    application:set_env(webmachine, server_name, "Cloudpane"),
-    application:set_env(webmachine, webmachine_logger_module, 
-                        webmachine_logger),
-    ensure_started(webmachine),
+    % application:set_env(webmachine, server_name, "Cloudpane"),
+    % application:set_env(webmachine, webmachine_logger_module, 
+    %                     webmachine_logger),
+    % ensure_started(webmachine),
     cloudpane_sup:start_link().
 
 %% @spec start() -> ok
 %% @doc Start the cloudpane server.
 start() ->
-    print_copyrights(),
-    ensure_started(inets),
-    ensure_started(crypto),
-    %%ensure_started(mnesia),
+    % print_copyrights(),
+    % ensure_started(inets),
+    % ensure_started(crypto),
+ 
+    % cdb:start(),
+    % %ensure_started(cdb),
 
-    ensure_started(mochiweb),
+    % ensure_started(mochiweb),
 
-    application:set_env(webmachine,server_name, "Cloudpane"),
-    application:set_env(webmachine, webmachine_logger_module, 
-                        webmachine_logger),
-    ensure_started(webmachine),
+    % application:set_env(webmachine,server_name, "Cloudpane"),
+    % application:set_env(webmachine, webmachine_logger_module, 
+    %                     webmachine_logger),
+    % ensure_started(webmachine),
     application:start(cloudpane).
 
 %% @spec stop() -> ok
@@ -81,9 +84,9 @@ stop() ->
     application:stop(webmachine),
     application:stop(mochiweb),
  
-    %%application:stop(mnesia),
-    %%change to advance mnesia stop function
-    %cp_mnesia:stop(),
+    %application:stop(cdb),
+    cdb:stop(),
+
     application:stop(crypto),
     application:stop(inets),
     Res.

@@ -18,4 +18,14 @@ start(_Type, _StartArgs) ->
 %% @spec stop(_State) -> ServerRet
 %% @doc application stop callback for cloudpane.
 stop(_State) ->
-    ok.
+    Res = application:stop(cloudpane),
+    application:stop(webmachine),
+    application:stop(mochiweb),
+ 
+    %application:stop(cdb),
+    cdb:stop(),
+
+    application:stop(crypto),
+    application:stop(inets),
+    Res.
+    %ok.

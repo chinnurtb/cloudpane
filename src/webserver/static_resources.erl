@@ -6,10 +6,10 @@
          resource_exists/2,
          content_types_provided/2,
          provide_content/2]).
-%-export([generate_etag/2]).
+-export([generate_etag/2]).
 -export_all(compile).
 
--debug(false).
+-debug(true).
 
 -include("cloudpane.hrl").
 -include_lib("kernel/include/file.hrl").
@@ -22,6 +22,7 @@
      response_body=undefined,
      session = undefined,
      id=0,
+     etag = undefined,
      authorized = false,
      method = undefined,
      rest = false,
@@ -31,11 +32,14 @@
 }).
 
 init([]) ->
-    %%{ok, App}= application:get_application(), 
-    %?info2(init,{privDir,PrivDir}),
     PrivDir = code:priv_dir(cloudpane),
-    {{trace, "/tmp"}, #context{docroot=PrivDir}}.
-    %{ok, #context{docroot=PrivDir}}.
+    ?cinfo(PrivDir),
+    case ?debugme of
+        true ->
+            {{trace, "/tmp"}, #context{docroot=PrivDir}};
+        false ->
+            {ok, #context{docroot=PrivDir}}
+    end.
 
 allowed_methods(ReqData, Context) ->
     ?cinfo(ok),
@@ -47,12 +51,21 @@ resource_exists(ReqData, Ctx) ->
 
 content_types_provided(ReqData, Ctx) ->
     Path = get_full_path(Ctx, wrq:disp_path(ReqData)),
+    ?cinfo(Path),
+    ?cinfo(webmachine_util:guess_mime(Path)),
     {[{webmachine_util:guess_mime(Path), provide_content}], ReqData, Ctx}.
 
-% generate_etag(ReqData, Context) -> 
-%     ETag = wrq:raw_path(ReqData),
-%     io:format("cloudpane_resource_static:generate_etag Etag~p~n",[ETag]),
-%     {ETag, ReqData, Context}.
+generate_etag(ReqData, Context) -> 
+    %ETag = wrq:raw_path(ReqData),
+    %?cinfo(ETag),
+    case maybe_fetch_object(Context, wrq:disp_path(ReqData)) of
+        {true, NewContext} ->
+            ETag = NewContext#context.etag,
+        
+            {ETag, ReqData, Context};
+        {false, NewContext} ->
+            {undefined, ReqData, NewContext}
+    end.
 
 provide_content(ReqData, Context) ->
     case maybe_fetch_object(Context, wrq:disp_path(ReqData)) of
@@ -70,27 +83,34 @@ maybe_fetch_object(Context, Path) ->
             case file_exists(Context, Path) of
                 {true, FullPath} ->
                     {ok, Value} = file:read_file(FullPath),
-                    {true, Context#context{response_body=Value}};
+                    HashValue = cp_crypto:md5(Value),
+                    ?cinfo(HashValue),
+                    {true, Context#context{response_body=Value,etag=HashValue}};
                 false ->
+                    ?cinfo(false),
                     {false, Context}
             end;
         _Body ->
+            ?cinfo(body_true),
             {true, Context}
     end.
 
 file_exists(Context, Path) ->
     FPath = get_full_path(Context, Path),
+    ?cinfo(FPath),
     case filelib:is_regular(filename:absname(FPath)) of
         true ->
+            ?cinfo(true),
             {true, FPath};
         false ->
+            ?cinfo(false),
             false
     end.
 
 get_full_path(Context, Path) ->
     Root = Context#context.docroot,
-    %?cinfo({root,Root}),
-    %?cinfo({safe_relative_path,mochiweb_util:safe_relative_path(Path)}),
+    ?cinfo({root,Root}),
+    ?cinfo({safe_relative_path,mochiweb_util:safe_relative_path(Path)}),
     case mochiweb_util:safe_relative_path(Path) of
         undefined -> undefined;
         RelPath ->

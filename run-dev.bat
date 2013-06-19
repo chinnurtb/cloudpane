@@ -1,1 +1,0 @@
-erl -sname cloudpane -s cloudpane -pa ebin deps/*/ebin -mnesia dir '"db/development"'

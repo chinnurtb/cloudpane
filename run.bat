@@ -1,1 +1,0 @@
-erl -sname cloudpane -s reloader -s cloudpane -pa ebin deps/*/ebin

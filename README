@@ -1,48 +1,40 @@
 
-Cloudpane Opensource Version v2.0.1
-state: Still being developed, can not be used!!!!!!!!!!!!!!!!!!!
+Cloudpane Opensource Version <2.0.1>
 
-===============================================================
-  This software can not be sold.
-  This software can not be used with commercial purposes.
-===============================================================
+Leagl Information
+==================
+  Without authorization, and software and its resources must not be used for commercial purposes.
+------------------
 More legal info, please contact us: http://www.ctyle.com/leagl
 
-特别注意：
-==============================
-开源版本没有App Engine，并且仅携带一个简单的数据库适配器。
+
+Copyrights and Contributors
+==================
+Copyrights © 2013 Ctyle Corporation All Rights Reserved.
+
+The codes in the "deps" directory, which are copyrighted 
+by their developers.
+
+
+Pay Attentions：
+=================
+Open sources version does not carry the "App Engine" module, so you can not develop apps' services by javascript, but you still can develop web services and busniess by erlang.
 
 
 How to compile this project?
-==============================
+=================
 (1)cd cloudpane
-(2)rebar get-deps
+(2)rebar get-deps (network online)
 (3)rebar compile
+(4)rebar -v generate
 
-How to init cloudpane?
-==============================
-(1)
-(2)DB: username and password for local access only
-db=cloudpane,username=cloudpane,password=cloudpane
 
-(2)erl envirnomnet run: cdb:init().
- 
 How to start cloudpane?
-==============================
-(1)unix/mac osx/linux: ./start.sh or ./start-dev.sh
-(2) windows: run.bat or run-dev.bat
+==================
+(1) bin/cpnode console
 
 
 How to stop cloudpane?
-==============================
+==================
 Ctrl + C (both win and mac )
 
-Copyrights and Contributors
-==============================
-Copyrights © 2013 Ctyle Corporation All Rights Reserved.
-
-Contributors: 
-zhang weizhong (@zhangweizhong)
-
-The codes in the "deps" directory, which are copyrighted 
-by its developers.

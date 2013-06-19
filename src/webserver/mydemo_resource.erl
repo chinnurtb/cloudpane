@@ -4,10 +4,14 @@
 
 -module(mydemo_resource).
 -export([init/1, to_html/2]).
+-debug(true).
 
 -include_lib("webmachine/include/webmachine.hrl").
+-include("cloudpane.hrl").
 
-init([]) -> {ok, undefined}.
+init([]) -> 
+	?cinfo(ok),
+	{{trace, "/tmp"}, undefined}.
 
 to_html(ReqData, State) ->
     {"<html><body>Hello, new world</body></html>", ReqData, State}.

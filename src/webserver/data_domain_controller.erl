@@ -1,13 +1,16 @@
 -module(data_domain_controller).
 -compile(export_all).
 -include("cloudpane.hrl").
+-debug(true).
 -include_lib("webmachine/include/webmachine.hrl").
 
-% init(_Arg) ->
-% 	{ok,undefined}.
-
 init(Config) ->
-   {{trace, "/tmp"}, Config}.  %% debugging code
+   	case ?debugme of
+   		true ->
+		   	{{trace, "/tmp"}, Config};  %% debugging code
+		false ->
+			{ok,Config}
+   	end.
 
 allowed_methods(RD,Ctx) ->
 	{['POST','GET'],RD,Ctx}.
@@ -25,13 +28,14 @@ to_json(RD,Ctx) ->
 	{true,RD,Ctx}. 
 
 process_post(RD,Ctx) ->
+	?cinfo(running),
 	StructBody = 
 	{
 		struct,
 		[
 			{<<"id">>,111},
 			{<<"method">>,<<"test_method">>},
-			{<<"result">>,""},
+			{<<"result">>,["22222"]},
 			{<<"error">>,null}
 		]
 	},
